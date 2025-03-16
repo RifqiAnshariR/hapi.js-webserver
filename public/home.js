@@ -1,13 +1,29 @@
-async function loadUserData(){
-    try{
-        const response = await fetch('http://localhost:5000/about');
-        const data = await response.json();
+async function getUserData(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch data!");
 
-        response.ok ? (document.getElementById('username').textContent = `Hi, ${data.username}!`,
-                    document.getElementById('reason').textContent = `Your reason is: ${data.reason}`) : alert("Login failed");
-
-    } catch(error){
-        alert('Something went wrong');
-    };
+        const userData = await response.json();
+        return userData.data || {};
+    } catch (error) {
+        alert("Error: " + error.message);
+        return null;
+    }
 }
-window.onload = loadUserData;
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const userData = await getUserData("http://localhost:5000/home");
+
+    if (!userData || !userData.username) {
+        alert("Something went wrong");
+        return;
+    }
+
+    const usernameElement = document.getElementById("username");
+    const reasonElement = document.getElementById("reason");
+
+    if (usernameElement && reasonElement) {
+        usernameElement.textContent = `Hi, ${userData.username}!`;
+        reasonElement.textContent = `Your reason is: ${userData.reason}`;
+    }
+});
