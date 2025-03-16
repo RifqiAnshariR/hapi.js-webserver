@@ -7,7 +7,7 @@ const init = async () => {
         host: 'localhost',
         routes: {
         cors: {
-            origin: ['*'], // Izinkan semua origin
+            origin: ['*'],
             headers: ['Accept', 'Content-Type'],
             additionalHeaders: ['X-Requested-With']
         }
@@ -17,9 +17,7 @@ const init = async () => {
     server.route(routes);
 
     await server.start();
-    console.log(`Server berjalan pada ${server.info.uri}`);
+    console.log(`Server run on: ${server.info.uri}`);
 };
 
 init();
-
-// curl -X POST "http://localhost:5000/login" -H "Content-Type: application/json" -d "{\"username\": \"john_doe\", \"reason\": \"Trying out Hapi.js\"}"

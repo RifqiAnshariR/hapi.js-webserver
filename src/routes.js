@@ -1,47 +1,25 @@
-import { getHomepage, getAbout, guestLogin } from "./handler.js";
+import { postLogin, getHome, accessDenied } from "./handler.js";
 
 const routes = [
     {
-        method: 'GET',
-        path: '/',
-        handler: getHomepage
-    },
-    {
-        method: '*',
-        path: '/',
-        handler: (request, h) => {
-            return h.response('Access denied')
-                .code(405)
-                .header('Content-Type', 'text/plain');
-        },
-    },
-    {
-        method: 'GET',
-        path: '/about',
-        handler: getAbout
-    },
-    {
-        method: '*',
-        path: '/about',
-        handler: (request, h) => {
-            return h.response('Access denied')
-                .code(405)
-                .header('Content-Type', 'text/plain');
-        },
-    },
-    {
         method: 'POST',
         path: '/login',
-        handler: guestLogin
+        handler: postLogin,
     },
     {
         method: '*',
         path: '/login',
-        handler: (request, h) => {
-            return h.response('Access denied')
-                .code(405)
-                .header('Content-Type', 'text/plain');
-        },
+        handler: accessDenied,
+    },
+    {
+        method: 'GET',
+        path: '/home',
+        handler: getHome,
+    },
+    {
+        method: '*',
+        path: '/home',
+        handler: accessDenied,
     },
 ];
 
